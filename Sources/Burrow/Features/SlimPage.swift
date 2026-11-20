@@ -15,7 +15,7 @@ struct SlimPage: View {
                      scanning: scan.scanning, progress: "Reading the architecture of every app",
                      started: scan.startedAt, checked: scan.finishedAt, error: scan.error) {
                 ScanButton(scanning: scan.scanning, start: scan.start, stop: scan.cancel)
-                Button(allSelected ? "Select none" : "Select all") {
+                Button(L(allSelected ? "Select none" : "Select all")) {
                     selected = allSelected ? [] : Set((scan.report?.apps ?? []).map(\.name))
                 }
                 .buttonStyle(.pillSecondary)

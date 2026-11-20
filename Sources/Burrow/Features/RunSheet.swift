@@ -13,9 +13,9 @@ struct RunSheet: View {
         VStack(alignment: .leading, spacing: 20) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(session.title).font(.system(size: 22, weight: .semibold))
+                    Text(L(session.title)).font(.system(size: 22, weight: .semibold))
                     HStack(spacing: 6) {
-                        Text(statusText)
+                        Text(L(statusText))
                         if !session.isFinished { Text("·"); Elapsed(since: session.started) }
                     }
                     .caption()
@@ -40,7 +40,7 @@ struct RunSheet: View {
                 .transition(.blurFade)
 
             HStack {
-                Button(showLog ? "Hide log" : "Show log") { showLog.toggle() }
+                Button(L(showLog ? "Hide log" : "Show log")) { showLog.toggle() }
                     .buttonStyle(.pillSecondary)
                     .help("Mole's own output, line by line")
                 Spacer()
@@ -103,10 +103,10 @@ struct RunSheet: View {
         case .needsAnswer(let question):
             GlowCard(glow: .ember, style: .rim, padding: 18) {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text(QuickReply.title(for: question)).cardTitle().lineLimit(3)
+                    Text(L(QuickReply.title(for: question))).cardTitle().lineLimit(3)
                     HStack(spacing: 10) {
                         ForEach(QuickReply.options(for: question), id: \.label) { option in
-                            Button(option.label) { session.reply(option.keys) }
+                            Button(L(option.label)) { session.reply(option.keys) }
                                 .buttonStyle(option.primary ? .pill : .pillSecondary)
                                 .keyboardShortcut(option.primary ? .defaultAction : option.keys == "\u{1B}" ? .cancelAction : nil)
                         }
@@ -277,7 +277,7 @@ private struct RunActivity: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .bottom) {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text(showsBytes ? headline.caption : "Steps done").caption()
+                    Text(L(showsBytes ? headline.caption : "Steps done")).caption()
                         .contentTransition(.opacity)
                     CountingValue(value: Double(showsBytes ? headline.value : Int64(done.count)), bytes: showsBytes)
                         .animation(Motion.reduced ? nil : .smooth(duration: 0.6), value: headline.value)
@@ -308,7 +308,7 @@ private struct RunActivity: View {
                     }
                 }
                 .frame(width: 18, height: 18)
-                Text(activity)
+                Text(L(activity))
                     .font(.system(size: 13.5, weight: .medium))
                     .lineLimit(1).truncationMode(.middle)
                     .shimmer(working)
@@ -379,7 +379,7 @@ private struct SectionTitle: View {
 
     var body: some View {
         HStack {
-            Text(text).textCase(.uppercase)
+            Text(L(text)).textCase(.uppercase)
             Spacer()
             if let bytes { Text(bytes.bytesText).monospacedDigit() }
         }

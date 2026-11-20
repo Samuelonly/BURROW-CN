@@ -20,6 +20,13 @@ ditto "$(dirname "$BIN")/Sparkle.framework" "$APP/Contents/Frameworks/Sparkle.fr
 cp -R Vendor/mole "$APP/Contents/Resources/mole"
 cp LICENSE "$APP/Contents/Resources/LICENSE"
 
+# SwiftUI resolves LocalizedStringKey through Bundle.main. The translation table
+# lives outside the Swift sources so upstream updates never have to re-merge it.
+if [ -f Localization/zh-Hans.lproj/Localizable.strings ]; then
+    mkdir -p "$APP/Contents/Resources/zh-Hans.lproj"
+    cp Localization/zh-Hans.lproj/Localizable.strings "$APP/Contents/Resources/zh-Hans.lproj/"
+fi
+
 # Icon: render once, then build the .icns with every size macOS asks for.
 ICONSET="$(mktemp -d)/Burrow.iconset"
 mkdir -p "$ICONSET"
@@ -39,23 +46,26 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleName</key><string>Burrow</string>
-    <key>CFBundleDisplayName</key><string>Burrow</string>
-    <key>CFBundleIdentifier</key><string>uz.khan.burrow</string>
+    <key>CFBundleName</key><string>BURROW-CN</string>
+    <key>CFBundleDisplayName</key><string>BURROW-CN</string>
+    <key>CFBundleIdentifier</key><string>cn.burrow.burrow-cn</string>
     <key>CFBundleExecutable</key><string>Burrow</string>
     <key>CFBundleIconFile</key><string>Burrow</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>$VERSION</string>
     <key>CFBundleVersion</key><string>$VERSION</string>
     <key>MoleVersion</key><string>$MOLE_VERSION</string>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>zh-Hans</string>
+    </array>
     <key>LSMinimumSystemVersion</key><string>26.0</string>
     <key>LSApplicationCategoryType</key><string>public.app-category.utilities</string>
     <key>NSHighResolutionCapable</key><true/>
-    <key>NSHumanReadableCopyright</key><string>GPL-3.0. Engine: Mole by tw93.</string>
-    <key>SUFeedURL</key><string>https://github.com/khan-umirzakoff/Mole-GUI/releases/latest/download/appcast.xml</string>
-    <key>SUPublicEDKey</key><string>QaDnpjb2kiIdqemydO9gyCCnyPQdQ2TuRqXxdx4cNjU=</string>
-    <key>SUEnableAutomaticChecks</key><true/>
-    <key>SUAutomaticallyUpdate</key><true/>
+    <key>NSHumanReadableCopyright</key><string>GPL-3.0. Engine: Mole by tw93. Fork: BURROW-CN.</string>
+    <!-- No Sparkle feed: this fork updates from its own Releases, never from upstream's English appcast. -->
 </dict>
 </plist>
 PLIST

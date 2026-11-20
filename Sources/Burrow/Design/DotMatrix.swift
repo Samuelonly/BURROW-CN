@@ -90,7 +90,7 @@ struct MetricValue: View {
                     .transition(.blurFade)
             }
             if !unit.isEmpty {
-                Text(unit).font(.system(size: max(11, dot * 3), weight: .regular)).foregroundStyle(Theme.secondaryText)
+                Text(L(unit)).font(.system(size: max(11, dot * 3), weight: .regular)).foregroundStyle(Theme.secondaryText)
                     .lineLimit(1).fixedSize()
             }
         }

@@ -101,7 +101,11 @@ struct TrayView: View {
                 MetricValue(value: disk == nil ? "-" : free.metric.value, unit: (disk == nil ? "GB" : free.metric.unit) + " free",
                             dot: 4.5, live: true)
                 DotMeter(value: disk.map { Double($0.used) / Double(max($0.total, 1)) } ?? 0, count: 34)
-                Text(disk.map { "\($0.used.bytesText) used of \($0.total.bytesText)" } ?? "Reading the disk…").caption()
+                if let disk {
+                    Text("\(disk.used.bytesText) used of \(disk.total.bytesText)").caption()
+                } else {
+                    Text("Reading the disk…").caption()
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -116,11 +120,11 @@ struct TrayView: View {
             GlowCard(glow: glow, style: .core, padding: 12) {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 4) {
-                        Text(title).font(.system(size: 11)).foregroundStyle(Theme.secondaryText).lineLimit(1)
+                        Text(L(title)).font(.system(size: 11)).foregroundStyle(Theme.secondaryText).lineLimit(1)
                         Spacer(minLength: 0)
                         // Only pressure that matters is shown, in words: a full RAM is normal on a Mac.
                         if let pressure, pressure != .normal {
-                            Text(pressure.label).font(.system(size: 10, weight: .semibold)).foregroundStyle(pressure.color)
+                            Text(L(pressure.label)).font(.system(size: 10, weight: .semibold)).foregroundStyle(pressure.color)
                         }
                     }
                     MetricValue(value: value ?? "-", unit: unit, dot: 3, live: true)
@@ -170,7 +174,7 @@ private struct TrayRow: View {
         HStack(spacing: 8) {
             Button(action: action) {
                 HStack(spacing: 8) {
-                    Text(title).font(.system(size: 13))
+                    Text(L(title)).font(.system(size: 13))
                     Spacer()
                     if busy { PulseDot() }
                     Text(value).font(.system(size: 13, weight: .medium)).monospacedDigit().foregroundStyle(Theme.secondaryText)

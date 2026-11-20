@@ -191,8 +191,8 @@ struct CheckedAgo: View {
     var body: some View {
         TimelineView(.everyMinute) { context in
             // Seconds would sit stale between minute ticks.
-            Text(context.date.timeIntervalSince(date) < 60 ? "Checked just now"
-                 : "Checked \(date.formatted(.relative(presentation: .named)))").caption()
+            Text(L(context.date.timeIntervalSince(date) < 60 ? "Checked just now"
+                 : "Checked \(date.formatted(.relative(presentation: .named)))")).caption()
         }
     }
 }
@@ -219,7 +219,7 @@ struct HeroCard<Actions: View>: View {
             VStack(alignment: .leading, spacing: 14) {
                 // One fixed-height title row in every state, so the badge never pushes the value down.
                 HStack {
-                    Text(label).cardTitle()
+                    Text(L(label)).cardTitle()
                     Spacer()
                     if scanning {
                         ScanningBadge(started: started).transition(.blurFade)
@@ -248,7 +248,7 @@ struct HeroCard<Actions: View>: View {
             Label("Mole could not finish", systemImage: "exclamationmark.triangle.fill")
                 .font(.system(size: 24, weight: .semibold))
                 .symbolRenderingMode(.multicolor)
-                .help(error)
+                .help(L(error))
         } else if let bytes, !(scanning && bytes == 0) {
             MetricValue(value: bytes.metric.value, unit: bytes.metric.unit + (atLeast ? "+" : ""), dot: 7, live: scanning)
         } else if scanning {
@@ -260,14 +260,14 @@ struct HeroCard<Actions: View>: View {
 
     @ViewBuilder private var footnote: some View {
         if scanning {
-            Text(progress.isEmpty ? "Mole is starting…" : progress)
+            Text(L(progress.isEmpty ? "Mole is starting…" : progress))
                 .caption().lineLimit(1).truncationMode(.middle)
                 .contentTransition(.opacity)
                 .animation(Motion.quick, value: progress)
         } else if let error {
-            Text(error).font(.system(size: 12)).foregroundStyle(Theme.danger).lineLimit(2)
+            Text(L(error)).font(.system(size: 12)).foregroundStyle(Theme.danger).lineLimit(2)
         } else {
-            Text(detail).caption().lineLimit(2)
+            Text(L(detail)).caption().lineLimit(2)
         }
     }
 }
@@ -421,12 +421,12 @@ struct EmptyState: View {
         VStack(spacing: 12) {
             Image(systemName: symbol).font(.system(size: 30, weight: .light))
                 .symbolEffect(.pulse, options: .repeating, isActive: symbol == "hourglass" && !Motion.reduced)
-            Text(text).font(.system(size: 14, weight: .medium)).foregroundStyle(.white.opacity(0.85))
+            Text(L(text)).font(.system(size: 14, weight: .medium)).foregroundStyle(.white.opacity(0.85))
             if !detail.isEmpty {
-                Text(detail).font(.system(size: 12)).frame(maxWidth: 420).lineLimit(3)
+                Text(L(detail)).font(.system(size: 12)).frame(maxWidth: 420).lineLimit(3)
             }
             if let actionTitle, let action {
-                Button(actionTitle, action: action).buttonStyle(.pillSecondary).padding(.top, 4)
+                Button(L(actionTitle), action: action).buttonStyle(.pillSecondary).padding(.top, 4)
             }
         }
         .multilineTextAlignment(.center)
@@ -516,9 +516,9 @@ struct SelectionBar<Actions: View>: View {
             .help("Clear selection (Esc)")
             .accessibilityLabel("Clear selection")
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.system(size: 14, weight: .semibold)).monospacedDigit()
+                Text(L(title)).font(.system(size: 14, weight: .semibold)).monospacedDigit()
                     .contentTransition(.numericText())
-                if !subtitle.isEmpty { Text(subtitle).caption().lineLimit(1) }
+                if !subtitle.isEmpty { Text(L(subtitle)).caption().lineLimit(1) }
             }
             Spacer(minLength: 12)
             actions
@@ -561,12 +561,12 @@ struct ConfirmAction: Identifiable {
 
 extension View {
     func confirmation(_ item: Binding<ConfirmAction?>) -> some View {
-        alert(item.wrappedValue?.title ?? "", isPresented: Binding(get: { item.wrappedValue != nil },
+        alert(Text(L(item.wrappedValue?.title ?? "")), isPresented: Binding(get: { item.wrappedValue != nil },
                                                                      set: { if !$0 { item.wrappedValue = nil } })) {
-            Button(item.wrappedValue?.button ?? "OK", role: .destructive) { item.wrappedValue?.action() }
+            Button(L(item.wrappedValue?.button ?? "OK"), role: .destructive) { item.wrappedValue?.action() }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text(item.wrappedValue?.message ?? "")
+            Text(L(item.wrappedValue?.message ?? ""))
         }
     }
 }

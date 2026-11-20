@@ -260,8 +260,8 @@ struct CircleIconButton: View {
         .opacity(enabled ? 1 : 0.4)
         .onHover { hover = $0 }
         .animation(Motion.quick, value: hover)
-        .help(help)
-        .accessibilityLabel(help)
+        .help(L(help))
+        .accessibilityLabel(L(help))
     }
 }
 
@@ -276,7 +276,7 @@ struct PillPicker<Value: Hashable>: View {
             ForEach(options, id: \.1) { title, value in
                 let on = selection == value
                 Button { withAnimation(Motion.quick) { selection = value } } label: {
-                    Text(title).font(.system(size: 12.5, weight: on ? .semibold : .regular))
+                    Text(L(title)).font(.system(size: 12.5, weight: on ? .semibold : .regular))
                         .foregroundStyle(on ? Color.black : .white.opacity(0.75))
                         .padding(.horizontal, 14).frame(height: 30)
                         .background { if on { Capsule().fill(.white).matchedGeometryEffect(id: "pill", in: pill) } }
@@ -298,7 +298,7 @@ struct Tag: View {
     var color: Color = .white
 
     var body: some View {
-        Text(text)
+        Text(L(text))
             .font(.system(size: 11, weight: .medium))
             .padding(.horizontal, 9)
             .frame(height: 22)

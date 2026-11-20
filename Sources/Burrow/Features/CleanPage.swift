@@ -93,10 +93,10 @@ struct ScanButton: View {
     let stop: () -> Void
 
     var body: some View {
-        Button(scanning ? "Stop" : title) { scanning ? stop() : start() }
+        Button(L(scanning ? "Stop" : title)) { scanning ? stop() : start() }
             .buttonStyle(.pillSecondary)
             .keyboardShortcut("r", modifiers: .command)
-            .help(scanning ? "Stop the scan (⌘R)" : "Scan again (⌘R)")
+            .help(L(scanning ? "Stop the scan (⌘R)" : "Scan again (⌘R)"))
     }
 }
 
@@ -126,14 +126,14 @@ struct OptimizePage: View {
                                     Label("Mole could not finish", systemImage: "exclamationmark.triangle.fill")
                                         .font(.system(size: 24, weight: .semibold)).symbolRenderingMode(.multicolor)
                                 } else if scan.report == nil {
-                                    Text(scan.scanning ? "Checking…" : "Not checked yet")
+                                    Text(L(scan.scanning ? "Checking…" : "Not checked yet"))
                                         .font(.system(size: 26, weight: .medium)).shimmer(scan.scanning)
                                 } else {
                                     MetricValue(value: "\(pendingSteps)", unit: pendingSteps == 1 ? "step to run" : "steps to run", dot: 7)
                                 }
                             }
                             .frame(minHeight: 84, alignment: .bottomLeading)
-                            Text(footnote).font(.system(size: 12))
+                            Text(L(footnote)).font(.system(size: 12))
                                 .foregroundStyle(scan.error != nil && !scan.scanning ? Theme.danger : Theme.secondaryText)
                                 .lineLimit(2)
                         }

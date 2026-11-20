@@ -33,7 +33,7 @@ struct BurrowApp: App {
             }
             CommandMenu("Go") {
                 ForEach(Page.allCases) { page in
-                    Button(page.title) { model.page = page }
+                    Button(L(page.title)) { model.page = page }
                         .keyboardShortcut(page.shortcut, modifiers: .command)
                 }
             }

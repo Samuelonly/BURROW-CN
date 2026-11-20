@@ -86,7 +86,7 @@ struct InstallersPage: View {
                      checked: store.checkedAt) {
                 Button("Rescan") { Task { await load() } }.buttonStyle(.pillSecondary).disabled(store.scanning)
                     .keyboardShortcut("r", modifiers: .command)
-                Button(allSelected ? "Select none" : "Select all") {
+                Button(L(allSelected ? "Select none" : "Select all")) {
                     selected = allSelected ? [] : Set((files ?? []).map(\.path))
                 }
                 .buttonStyle(.pillSecondary)

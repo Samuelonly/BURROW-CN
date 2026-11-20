@@ -250,7 +250,7 @@ struct AnalyzePage: View {
                         ForEach(places, id: \.0) { place in
                             let path = place.1.map { ($0 as NSString).expandingTildeInPath }
                             let active = map.trail.first == path || (path == nil && map.trail.isEmpty)
-                            Button(place.0) { map.jump(to: path) }
+                            Button(L(place.0)) { map.jump(to: path) }
                                 .buttonStyle(active ? .pill : .pillSecondary)
                                 .accessibilityAddTraits(active ? .isSelected : [])
                         }
@@ -268,7 +268,7 @@ struct AnalyzePage: View {
             breadcrumb
 
             if let trashError {
-                Label(trashError, systemImage: "exclamationmark.triangle.fill")
+                Label(L(trashError), systemImage: "exclamationmark.triangle.fill")
                     .font(.system(size: 12.5)).foregroundStyle(Theme.danger)
                     .transition(.blurFade)
             }

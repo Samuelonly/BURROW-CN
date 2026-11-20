@@ -53,7 +53,7 @@ struct ProjectsPage: View {
                     Text("\(groups.count) projects · \(report.artifacts.count) folders").caption()
                     Spacer()
                     if !scan.scanning {
-                        Button(selected.count == report.artifacts.count ? "Select none" : "Select all") {
+                        Button(L(selected.count == report.artifacts.count ? "Select none" : "Select all")) {
                             selected = selected.count == report.artifacts.count ? [] : Set(report.artifacts.map(\.path))
                         }
                         .buttonStyle(.pillSecondary)

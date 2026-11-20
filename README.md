@@ -1,3 +1,53 @@
+# BURROW-CN
+
+**BURROW-CN** 是 [khan-umirzakoff/Mole-GUI](https://github.com/khan-umirzakoff/Mole-GUI)（应用名 Burrow）的**简体中文本地化 Fork**。它只做一件事：把 Burrow 的界面翻成中文，并让这份翻译能随上游更新低成本同步。功能、引擎、结构与上游保持一致，GPL-3.0 许可证不变。
+
+## 这个 Fork 做了什么
+
+- **界面汉化**：268 条界面文案已翻译，放在独立文件 [`Localization/zh-Hans.lproj/Localizable.strings`](Localization/zh-Hans.lproj/Localizable.strings)，格式就是 `"英文原文" = "中文译文";`。
+- **最小改动**：只在文字显示处接了一层查找辅助 [`Sources/Burrow/Localization.swift`](Sources/Burrow/Localization.swift)；数据来源、解析逻辑、Mole 引擎没有改动。
+- **打包改动**：[`scripts/bundle.sh`](scripts/bundle.sh) 把翻译文件放进 app 并声明支持 `zh-Hans`。
+- **明确边界**：Mole 的命令名、CLI 输出、路径、日志**一律不翻译**——`Reports.swift` 等靠英文关键字解析输出，翻了会破坏功能。
+
+## 下载与运行
+
+到 [Releases](../../releases) 下载 `BURROW-CN.dmg`（Apple Silicon / arm64，macOS 26+）。应用为 ad-hoc 签名，若 macOS 拦截，右键 → 打开，或执行 `xattr -cr /Applications/Burrow.app`。
+
+> 本包已关闭对上游 appcast 的自动更新检查，避免中文版被上游英文版覆盖；更新请回到本仓库的 Releases。
+
+## 上游更新后怎么同步（重要）
+
+本地化层与源码是分开的，所以同步上游很轻：
+
+```bash
+scripts/sync-upstream.sh           # 拉取 → rebase → sync → check，一条命令
+```
+
+等价于手动执行：
+
+```bash
+git fetch upstream
+git rebase upstream/main          # 或 git merge upstream/main
+python3 scripts/localization.py sync    # 保留旧译文，补新键、删失效键
+python3 scripts/localization.py check   # 列出还没翻的新文案
+```
+
+把 `check` 报出来的新条目补进 `Localizable.strings` 即可。上游若改写了某句英文，那一条键会失配，`check` 会明确列出，不会静默丢翻译。规则是「以英文原文做键」：原文没变，译文继续生效；改了只影响那一条。
+
+## 本地构建
+
+```bash
+bash scripts/bundle.sh build      # 产出 build/Burrow.app
+```
+
+先确认本机有 Xcode 与 Swift 6.2+；翻译表完整性检查：`python3 scripts/localization.py check`。
+
+## 致谢
+
+上游 Burrow 由 [khan-umirzakoff](https://github.com/khan-umirzakoff) 开发，底层引擎 [Mole](https://github.com/tw93/Mole) 由 tw93 开发。本 Fork 仅维护简体中文界面。下方是上游原始 README，供功能说明参考。
+
+---
+
 <div align="center">
 
 <img src="docs/icon.png" width="128" alt="Burrow icon" />

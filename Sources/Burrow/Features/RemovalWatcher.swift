@@ -163,8 +163,8 @@ private struct RemovalOffer: View {
                         .background(Circle().fill(Glow.ember.color.opacity(0.16)))
                 }
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(title).font(.system(size: 14, weight: .semibold)).lineLimit(2)
-                    Text(detail).caption().lineLimit(3)
+                    Text(L(title)).font(.system(size: 14, weight: .semibold)).lineLimit(2)
+                    Text(L(detail)).caption().lineLimit(3)
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .frame(width: 210, alignment: .leading)

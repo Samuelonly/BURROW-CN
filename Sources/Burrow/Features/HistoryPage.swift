@@ -15,7 +15,7 @@ struct HistoryPage: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 12) {
-                Text(summary).caption()
+                Text(L(summary)).caption()
                 Spacer()
                 Toggle("Show previews and empty runs", isOn: $showPreviews).toggleStyle(.switch).controlSize(.small)
                 CircleIconButton(symbol: "arrow.clockwise", help: "Reload") { Task { await load() } }
@@ -63,11 +63,11 @@ struct HistoryPage: View {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: 6) {
                         HStack(spacing: 8) {
-                            Text(s.title).cardTitle()
+                            Text(L(s.title)).cardTitle()
                             if s.isPreview { Tag(text: "Preview") }
                             if s.looksInterrupted { Tag(text: "Interrupted", color: .orange) }
                         }
-                        Text(s.when).caption()
+                        Text(L(s.when)).caption()
                         if let a = s.actions {
                             HStack(spacing: 6) {
                                 if let n = a.removed, n > 0 { Tag(text: "\(n) removed", color: Theme.accent) }

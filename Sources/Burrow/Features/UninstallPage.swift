@@ -200,7 +200,7 @@ private struct AppTile: View {
             AppIcon(path: app.path, size: 40)
             VStack(alignment: .leading, spacing: 3) {
                 Text(app.name).font(.system(size: 13.5, weight: .medium)).lineLimit(1)
-                Text(app.bytes.map(\.bytesText) ?? "Size unknown").caption().monospacedDigit()
+                Text(L(app.bytes.map(\.bytesText) ?? "Size unknown")).caption().monospacedDigit()
             }
         }
         .contextMenu {

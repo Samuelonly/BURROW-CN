@@ -382,7 +382,7 @@ struct LeftoversView: View {
                      scanning: store.scanning, progress: "Looking through your Library", checked: store.checkedAt) {
                 Button("Rescan") { Task { await store.load() } }.buttonStyle(.pillSecondary).disabled(store.scanning)
                     .keyboardShortcut("r", modifiers: .command)
-                Button(allSelected ? "Select none" : "Select all") {
+                Button(L(allSelected ? "Select none" : "Select all")) {
                     selected = allSelected ? [] : Set(all.map(\.id))
                 }
                 .buttonStyle(.pillSecondary)

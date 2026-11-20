@@ -77,7 +77,7 @@ struct SettingsPage: View {
                         Text("Approve Mole's administrator steps with your fingerprint instead of typing the password. Changing it asks for your password once.").caption()
                         Spacer(minLength: 0)
                         if let on = touchID {
-                            Button(on ? "Turn off" : "Turn on") {
+                            Button(L(on ? "Turn off" : "Turn on")) {
                                 model.run("Touch ID for sudo", ["touchid", on ? "disable" : "enable"]) {
                                     touchID = nil
                                     Task { await checkTouchID() }
@@ -165,10 +165,10 @@ private struct PathListCard: View {
     var body: some View {
         GlowCard(glow: glow, style: .plain) {
             VStack(alignment: .leading, spacing: 12) {
-                Text(title).cardTitle()
-                Text(caption).caption()
+                Text(L(title)).cardTitle()
+                Text(L(caption)).caption()
                 if !warning.isEmpty {
-                    Label(warning, systemImage: "exclamationmark.triangle.fill")
+                    Label(L(warning), systemImage: "exclamationmark.triangle.fill")
                         .font(.system(size: 11.5)).foregroundStyle(.orange)
                 }
                 HStack {

@@ -219,7 +219,7 @@ struct OverviewPage: View {
                     Image(systemName: "powerplug").font(.system(size: 30, weight: .light))
                     Text(s == nil ? "–" : "No battery, on power").caption()
                 }
-                if let w = s?.thermal?.system_power, w > 0 { Text(String(format: "Drawing %.1f W", w)).caption() }
+                if let w = s?.thermal?.system_power, w > 0 { Text(L(String(format: "Drawing %.1f W", w))).caption() }
                 Spacer(minLength: 0)
             }
         }
@@ -236,7 +236,7 @@ struct OverviewPage: View {
                 // A floor of 1 MB/s keeps an idle line flat instead of blowing tiny noise up to full height.
                 BarSpark(values: monitor.rxHistory, color: Theme.accent, maxValue: max(monitor.rxHistory.max() ?? 0, 1))
                     .frame(height: 34)
-                Text(String(format: "%.2f MB/s out", tx)).caption()
+                Text(L(String(format: "%.2f MB/s out", tx))).caption()
                 Spacer(minLength: 0)
             }
         }
@@ -248,7 +248,7 @@ struct OverviewPage: View {
                 HStack {
                     Text("Busiest processes").cardTitle()
                     Spacer()
-                    Text(s?.uptime.map { "Up \($0)" } ?? "").caption()
+                    if let uptime = s?.uptime { Text("Up \(uptime)").caption() }
                 }
                 ForEach(s?.top_processes ?? []) { p in
                     HStack {
@@ -280,13 +280,13 @@ struct QuickAction: View {
             GlowCard(glow: glow, style: .core, padding: 16) {
                 HStack(spacing: 12) {
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(title).caption()
+                        Text(L(title)).caption()
                         HStack(spacing: 8) {
                             Text(value).font(.system(size: 20, weight: .semibold)).foregroundStyle(.white)
                                 .monospacedDigit().contentTransition(.numericText())
                             if busy { PulseDot() }
                         }
-                        if !detail.isEmpty { Text(detail).font(.system(size: 11)).foregroundStyle(Theme.tertiaryText).lineLimit(1) }
+                        if !detail.isEmpty { Text(L(detail)).font(.system(size: 11)).foregroundStyle(Theme.tertiaryText).lineLimit(1) }
                     }
                     Spacer()
                     Image(systemName: "arrow.up.right")
